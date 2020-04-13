@@ -2,7 +2,7 @@ const express = require('express');
 //const bodyParser = require('body-parser');
 
 const {db, Tasks} = require('./db');
-const tasksRoute = require('./routes/router');
+const tasksRoute = require('./routes/todos');
 
 const app = express();
 
@@ -10,7 +10,7 @@ app.use(express.urlencoded({extended: true}))
 app.use(express.json())
 //app.use(bodyParser.json());
 app.use(express.static(__dirname + '/static'));
-app.use('/routes', tasksRoute); 
+app.use('/todos', tasksRoute); 
 
 
 db.sync()
