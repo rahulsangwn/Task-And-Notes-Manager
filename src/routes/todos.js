@@ -5,12 +5,6 @@ const route = Router()
 
 // Get all todos 
 route.get('/', async (req, res) => {
-    // const users = Tasks.findAll()
-    // console.log('Title')
-    // for (let user of users) {
-    //     console.log(`${user.Title}`)
-    // }
-    // res.send(users);
     const tasks = await Tasks.findAll()
     res.send(tasks)
 });
@@ -24,11 +18,12 @@ route.post('/', async (req, res) => {
     }
     
     const newTask = await Tasks.create({
-        Task: req.body.task,
+        Title: req.body.title,
         State: req.body.state,
-        Description: req.body.description
+        Description: req.body.description,
+        DueDate: req.body.duedate,
+        Priority: req.body.priority
     })
-
     res.status(201).send({
         success: 'New task added'
     })
