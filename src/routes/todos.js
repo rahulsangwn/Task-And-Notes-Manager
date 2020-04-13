@@ -1,5 +1,5 @@
 const {Router} = require('express')
-const {Tasks} = require('../db')
+const {Tasks, Notes} = require('../db')
 
 const route = Router()
 
@@ -49,20 +49,46 @@ route.get('/:id', async (req, res) => {
 });
 
 // Update details of specific todo
-route.patch('/', (req, res) => {
-    res.send(data);
+route.patch('/:id', async (req, res) => {
+    const id = parseInt(req.params.id);
+    //const task = await Tasks.findByPk(req.params.id)
+    const newTask = await Tasks.update({
+        Title: req.body.title,
+        State: req.body.state,
+        Description: req.body.description,
+        DueDate: req.body.duedate,
+        Priority: req.body.priority
+    }, {
+        where: {Id: id}
+    })
+    res.send({success: "Successfully update"});
 });
 
 // Get list of all notes under specific todo
-route.get('/:id/notes', (req, res) => {
+route.get('/:id/notes', async (req, res) => {
     const id = parseInt(req.params.id);
-    res.send(data);
+    const tasks = await Notes.findAll({where: {TaskId: id}})
+    res.send(tasks)
 });
 
 // Add a new note under specific todo
-route.post('/:id/notes', (req, res) => {
+route.post('/:id/notes', async (req, res) => {
     const id = parseInt(req.params.id);
-    res.send(data);
+
+    if (typeof req.body.params === 'string') {
+        return res.status(400).send({
+            error: 'Task name not provided'
+        })
+    }
+    
+    const newTask = await Notes.create({
+        Body: req.body.body,
+        TaskId: id,
+    })
+    res.status(201).send({
+        success: 'New Note added'
+    })
+
 });
 
 module.exports = route

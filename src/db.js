@@ -34,19 +34,27 @@ const Tasks = db.define('Task', {
 });
 
 const Notes = db.define('Note', {
-    id: {
+    NotesId: {
         type: sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true
     },
-    body: {
+    Body: {
         type: sequelize.STRING(1000),
         allowNull: false
     },
-    taskId: {
+    TaskId: {
         type: sequelize.INTEGER
     }
 })
+
+const Seed2 = async function Note() {
+    await db.sync()
+    await Notes.create({
+        Body: "Purchase full creame milk",
+        TaskId: 1
+    })
+}
 
 const Seed = async function Task() {
     //await db.sync({alter: true}) // pass alter: true after changes
@@ -78,6 +86,6 @@ db.authenticate() // Just check for db connection
     //Seed()  // For data initializiation in database
 
 module.exports = {
-    db, Tasks
+    db, Tasks, Notes
 }
 

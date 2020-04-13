@@ -9,7 +9,7 @@ const app = express();
 app.use(express.urlencoded({extended: true}))
 app.use(express.json())
 //app.use(bodyParser.json());
-app.use(express.static(__dirname + '/static'));
+app.use(express.static(__dirname + '/public'));
 app.use('/todos', tasksRoute); 
 
 
