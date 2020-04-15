@@ -10,10 +10,14 @@
         integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
         crossorigin="anonymous">
     </script>
+        
+        
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     <script async defer src="script.js"></script>
     <script src="index.js"> </script>
 </head>
 <body>
+    
     <h1 class="text-center">Task Manager</h1>
     <hr>
     <div class="row container">
@@ -23,7 +27,8 @@
                     $.getJSON('http://localhost:3001/todos', function(data) {
                         data.forEach(element => {
                             var text = `
-                            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                            <a href="#collapse${element.Id}" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapse${element.Id}" 
+                                class="list-group-item list-group-item-action flex-column align-items-start" id="${element.Id}">
                                 <div class="d-flex w-100 justify-content-between">
                                     <h5 class="mb-1">${element.Title}</h5>
                                     <small>Priority: ${element.Priority}</small>
@@ -33,7 +38,11 @@
                                     <h6 class="">State: ${element.State}</h6>
                                     <small>Due Date: ${element.DueDate.substring(0, 10)}</small>
                                 </div>
-                            </a>`
+                            </a>
+                            <div class="collapse" id="collapse${element.Id}">
+                                
+                            </div>
+                            `
                             $(".myclass").append(text);
                         });
 

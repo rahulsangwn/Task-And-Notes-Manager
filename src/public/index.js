@@ -8,6 +8,24 @@ $(document).ready(function(){
         (day<10 ? '0' : '') + day;
 
     $('#due-date').val(output)
+
+
+    $('a.list-group-item').click(function() { 
+        var id = $(this).attr('id');
+        var collapseid = '#collapse' + id
+        $(collapseid).empty()
+        //$container.cycle(id.replace('#', '')); 
+        //return false; 
+        const url = 'http://localhost:3001/todos/' + id + '/notes'
+        console.log(url)
+        $.getJSON(url, function(data) {
+            data.forEach(element => {
+                var text = `<li class="list-group-item list-group-item-success">${element.Body}</li>`
+                
+                $(collapseid).append(text);
+            })
+        });
+    })
 })
 
 $('#form-create-task').submit(function() {
@@ -23,6 +41,11 @@ $('#form-create-task').submit(function() {
             console.log(data)
         }
         
-      });
+    });
 })
+
+
+
+
+
 
