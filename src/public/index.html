@@ -6,10 +6,41 @@
     <title>Task Manager</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="style.css">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+        crossorigin="anonymous">
+    </script>
     <script async defer src="script.js"></script>
+    <script src="index.js"> </script>
 </head>
 <body>
-    <h1>Given tasks</h1>
-    
+    <h1>List of Tasks</h1>
+    <div class="row container">
+        <div class="col-sm-6">
+            <div class="list-group myclass">
+                <script>
+                    $.getJSON('http://localhost:3001/todos', function(data) {
+                        data.forEach(element => {
+                            var text = `
+                            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h5 class="mb-1">${element.Title}</h5>
+                                    <small>Priority: ${element.Priority}</small>
+                                </div>
+                                <p class="mb-1">${element.Description}</p>
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h6 class="">State: ${element.State}</h6>
+                                    <small>Due Date: ${element.DueDate.substring(0, 10)}</small>
+                                </div>
+                            </a>`
+                            $(".myclass").append(text);
+                        });
+
+                        
+                    })
+                </script>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
