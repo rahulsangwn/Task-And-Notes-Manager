@@ -1,3 +1,4 @@
+var PORT = process.env.PORT || 3001
 const express = require('express');
 //const bodyParser = require('body-parser');
 
@@ -15,7 +16,7 @@ app.use('/todos', tasksRoute);
 
 db.sync()
     .then(() => {
-        app.listen(3001, () => {
+        app.listen(PORT, () => {
             console.log("Server started on port 3001");
         })
     })
