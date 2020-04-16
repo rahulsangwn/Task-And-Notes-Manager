@@ -11,24 +11,24 @@ function listing(sortId) {
                 return new Date(a.DueDate) - new Date(b.DueDate);
             });
         } else if (sortId == 3) {
-            var sortOrder = ['High', 'Medium', 'Low'];   // Declare a array that defines the order of the elements to be sorted.
+            var sortOrder = ['High', 'Medium', 'Low'];   
             data.sort(
-                function (a, b) {                              // Pass a function to the sort that takes 2 elements to compare
-                    if (a.Priority == b.Priority) {                    // If the elements both have the same `type`,
-                        return a.Title.localeCompare(b.Title); // Compare the elements by `name`.
-                    } else {                                   // Otherwise,
-                        return sortOrder.indexOf(a.Priority) - sortOrder.indexOf(b.Priority); // Substract indexes, If element `a` comes first in the array, the returned value will be negative, resulting in it being sorted before `b`, and vice versa.
+                function (a, b) {                             
+                    if (a.Priority == b.Priority) {                   
+                        return a.Title.localeCompare(b.Title); 
+                    } else {                                   
+                        return sortOrder.indexOf(a.Priority) - sortOrder.indexOf(b.Priority); 
                     }
                 }
             );
         } else if (sortId == 4) {
-            var sortOrder = ['Incomplete', 'Complete'];   // Declare a array that defines the order of the elements to be sorted.
+            var sortOrder = ['Incomplete', 'Complete'];  
             data.sort(
-                function (a, b) {                              // Pass a function to the sort that takes 2 elements to compare
-                    if (a.State == b.State) {                    // If the elements both have the same `type`,
-                        return a.Title.localeCompare(b.Title); // Compare the elements by `name`.
-                    } else {                                   // Otherwise,
-                        return sortOrder.indexOf(a.State) - sortOrder.indexOf(b.State); // Substract indexes, If element `a` comes first in the array, the returned value will be negative, resulting in it being sorted before `b`, and vice versa.
+                function (a, b) {                             
+                    if (a.State == b.State) {                    
+                        return a.Title.localeCompare(b.Title); 
+                    } else {                                   
+                        return sortOrder.indexOf(a.State) - sortOrder.indexOf(b.State); 
                     }
                 }
             );
@@ -40,7 +40,7 @@ function listing(sortId) {
         data.forEach(element => {
             var text = `
             <a href="#collapse${element.Id}" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapse${element.Id}" 
-                class="list-group-item list-group-item-action flex-column align-items-start" id="${element.Id}">
+                class="list-group-item list-group-item-action flex-column align-items-start" id="${element.Id}" onclick="notesView(this.id)">
                 <div class="d-flex w-100 justify-content-between">
                     <h5 class="mb-1">${element.Title}</h5>
                     <small>Priority: ${element.Priority}</small>

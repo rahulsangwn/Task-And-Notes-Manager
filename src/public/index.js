@@ -4,8 +4,9 @@ function updateTask(id) {
     var Duedate = document.getElementById("duedateTask").value;
     var Priority = document.getElementById("priorityTask").value;
     var State = "Incomplete";
-    if (document.getElementById('stateTask').checked) {
-        taskStatus = "Complete";
+    console.log('logging: '+ document.getElementById('stateTask').value)
+    if (document.getElementById('stateTask').value == 'Complete') {
+        State = "Complete";
     }
     $.ajax({
         datatype: 'json',
@@ -31,74 +32,6 @@ $(document).ready(function () {
         (day < 10 ? '0' : '') + day;
 
     $('#due-date').val(output)
-
-
-    var flag = false;
-    $('a.list-group-item').click(function () {
-        var id = $(this).attr('id');
-        flag = !flag
-        const collapseid = '#collapse' + id
-        const collapseid2 = 'collapse' + id
-        $(collapseid).empty()
-        $('.editTag').empty()
-
-        var input = `<div class="input-group">
-            <input type="text" class="form-control" id="task${id}" placeholder="Enter Note to Create" aria-label="Recipient's username" aria-describedby="basic-addon2">
-                <div class="input-group-append">
-                    <button class="btn btn-primary note-create" id="${id}" type="button" onclick="createNote(this.id)">Create</button>
-                </div>
-            </div>`
-        $(collapseid).append(input)
-        //$container.cycle(id.replace('#', '')); 
-        //return false; 
-        const urlNotes = '/todos/' + id + '/notes'
-        //console.log(url)
-        $.getJSON(urlNotes, function (data) {
-            data.forEach(element => {
-                var text = `<li class="list-group-item list-group-item-success">${element.Body}</li>`
-                $(collapseid).append(text);
-            })
-        });
-
-        const urlTask = '/todos/' + id
-
-        $.getJSON(urlTask, function (data) {
-            console.log("requested")
-            const url = '/todos/' + data.Id
-            var editContent = `
-            <div class="collapse ${flag ? "show" : ""}" id="${collapseid2}">
-                <h4 class="text-center">Edit "${data.Title}" Task</h4>
-                <form class="form-inline">
-                    <div class="form-check my-1 mr-sm-2">
-                        <label class="form-check-label" for="stateTask">Is Completed? </label>
-                        <input type="checkbox" style="margin-left: 8px;" value="" name="state" id="stateTask" class="form-check-input">
-                    </div>
-                    <input type="hidden" name="id" id="idTask" value="${data.Id}">
-                    <div>
-                        <input class="form-control" type="date" id="duedateTask" name="duedate" value=${data.DueDate.substring(0, 10)}>
-                    </div>
-
-                    <select class="custom-select my-1 mr-sm-2" id="priorityTask" name="priority">
-                        <option value="Low">Low</option>
-                        <option value="Medium">Medium</option>
-                        <option value="High">High</option>
-                    </select>
-
-
-                    <button type="submit" class="btn btn-primary my-1" onclick="updateTask(${data.Id})">Update</button>
-                </form>
-                <hr>
-            </div>
-            `
-
-            $('.editTag').append(editContent);
-            $('select').val(data.Priority).attr("selected", "selected")
-            if (data.State == 'Complete') {
-                //document.getElementById('stateTask').checked = true;
-                $('#stateTask').prop('checked', true);
-            }
-        });
-    })
 })
 
 function createNote(id) {
@@ -142,7 +75,76 @@ $('#form-create-task').submit(function () {
 })
 
 
+function notesView(Id) {
+    
+    var flag = false;
+    // $('a.list-group-item').click(function () {
+        // console.log("function clicked")
+        var id = parseInt(Id);
+        flag = !flag
+        const collapseid = '#collapse' + id
+        const collapseid2 = 'collapse' + id
+        $(collapseid).empty()
+        $('.editTag').empty()
 
+        var input = `<div class="input-group">
+            <input type="text" class="form-control" id="task${id}" placeholder="Enter Note to Create" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                <div class="input-group-append">
+                    <button class="btn btn-primary note-create" id="${id}" type="button" onclick="createNote(this.id)">Create</button>
+                </div>
+            </div>`
+        $(collapseid).append(input)
+        //$container.cycle(id.replace('#', '')); 
+        //return false; 
+        const urlNotes = '/todos/' + id + '/notes'
+        //console.log(url)
+        $.getJSON(urlNotes, function (data) {
+            data.forEach(element => {
+                var text = `<li class="list-group-item list-group-item-success">${element.Body}</li>`
+                $(collapseid).append(text);
+            })
+        });
+
+        const urlTask = '/todos/' + id
+
+        $.getJSON(urlTask, function (data) {
+            const url = '/todos/' + data.Id
+            var editContent = `
+            <div class="collapse ${flag ? "show" : ""}" id="${collapseid2}">
+                <h4 class="text-center">Edit "${data.Title}" Task</h4>
+                <form class="form-inline">
+                    <div class="form-check my-1 mr-sm-2">
+                        <label class="form-check-label" for="stateTask">Is Completed? </label>
+                        <input type="checkbox" style="margin-left: 8px;" value="Complete" name="state" id="stateTask" class="form-check-input">
+                    </div>
+                    <input type="hidden" name="id" id="idTask" value="${data.Id}">
+                    <div>
+                        <input class="form-control" type="date" id="duedateTask" name="duedate" value=${data.DueDate.substring(0, 10)}>
+                    </div>
+
+                    <select class="custom-select my-1 mr-sm-2" id="priorityTask" name="priority">
+                        <option value="Low">Low</option>
+                        <option value="Medium">Medium</option>
+                        <option value="High">High</option>
+                    </select>
+
+
+                    <button type="submit" class="btn btn-primary my-1" onclick="updateTask(${data.Id})">Update</button>
+                </form>
+                <hr>
+            </div>
+            `
+
+            $('.editTag').append(editContent);
+            $('select').val(data.Priority).attr("selected", "selected")
+            if (data.State == 'Complete') {
+                //document.getElementById('stateTask').checked = true;
+                $('#stateTask').prop('checked', true);
+            }
+        });
+    // })
+
+}
 
 
 
