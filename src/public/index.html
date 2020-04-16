@@ -53,12 +53,40 @@
         </div>
 
         <div class="col-sm-6">
+
+            <div class="collapse" id="collapse1">
+                <h4 class="text-center">Edit this Task</h4>
+                <form class="form-inline">
+                    <div class="custom-control custom-checkbox my-1 mr-sm-2">
+                        <input type="checkbox" class="custom-control-input" id="customControlInline">
+                        <label class="custom-control-label" for="customControlInline">Is Completed?</label>
+                    </div>
+
+                    <div>
+                        <input class="form-control" type="date" name="duedate" id="">
+                    </div>
+
+                    <select class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref">
+                        <option selected>Priority</option>
+                        <option value="Low">Low</option>
+                        <option value="Medium">Medium</option>
+                        <option value="High">High</option>
+                    </select>
+
+
+                    <button type="submit" class="btn btn-primary my-1">Update</button>
+                </form>
+                <hr>
+            </div>
+
+            
+            <h4 class="text-center">Create New Task</h4>
             <form id="form-create-task" action="http://localhost:3001/todos/" method="POST">
 
                 <div class="form-group">
-                    <label for="inputEmail3" class="col-form-label">Title</label>
+                    <label for="title" class="col-form-label">Title</label>
                     <div class="">
-                        <input type="text" class="form-control" id="inputEmail3" name="title" placeholder="Title" required>
+                        <input type="text" class="form-control" id="title" name="title" placeholder="Title" required>
                     </div>
                 </div>
                 <div class="form-group">
@@ -72,7 +100,7 @@
                     <textarea class="form-control" id="exampleFormControlTextarea4" name="description" rows="3"></textarea>
                 </div>
                 <fieldset class="form-group">
-                    <label for="inputPassword3" class="col-form-label">Priority: </label>
+                    <label for="priority" class="col-form-label">Priority: </label>
                     <div class="custom-control custom-radio custom-control-inline">
                         <input type="radio" id="customRadioInline1" name="customRadioInline1" class="custom-control-input">
                         <label class="custom-control-label" for="customRadioInline1">Low</label>
