@@ -51,17 +51,20 @@ route.get('/:id', async (req, res) => {
 // Update details of specific todo
 route.patch('/:id', async (req, res) => {
     const id = parseInt(req.params.id);
+    console.log("Task Id" + id)
     //const task = await Tasks.findByPk(req.params.id)
-    const newTask = await Tasks.update({
-        Title: req.body.title,
+    try {
+        const newTask = await Tasks.update({
         State: req.body.state,
-        Description: req.body.description,
         DueDate: req.body.duedate,
         Priority: req.body.priority
-    }, {
-        where: {Id: id}
-    })
-    res.send({success: "Successfully update"});
+        }, {
+            where: {Id: id}
+        })
+        res.send({success: "Successfully update"});
+    } catch(err) {
+        console.log("Error in Patch: " + err)
+    }
 });
 
 // Get list of all notes under specific todo
