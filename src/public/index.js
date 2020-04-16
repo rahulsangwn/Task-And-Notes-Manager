@@ -51,7 +51,7 @@ $(document).ready(function () {
         $(collapseid).append(input)
         //$container.cycle(id.replace('#', '')); 
         //return false; 
-        const urlNotes = 'http://localhost:3001/todos/' + id + '/notes'
+        const urlNotes = '/todos/' + id + '/notes'
         //console.log(url)
         $.getJSON(urlNotes, function (data) {
             data.forEach(element => {
@@ -60,11 +60,11 @@ $(document).ready(function () {
             })
         });
 
-        const urlTask = 'http://localhost:3001/todos/' + id
+        const urlTask = '/todos/' + id
 
         $.getJSON(urlTask, function (data) {
             console.log("requested")
-            const url = 'http://localhost:3001/todos/' + data.Id
+            const url = '/todos/' + data.Id
             var editContent = `
             <div class="collapse ${flag ? "show" : ""}" id="${collapseid2}">
                 <h4 class="text-center">Edit "${data.Title}" Task</h4>
@@ -85,7 +85,7 @@ $(document).ready(function () {
                     </select>
 
 
-                    <button type="button" class="btn btn-primary my-1" onclick="updateTask(${data.Id})">Update</button>
+                    <button type="submit" class="btn btn-primary my-1" onclick="updateTask(${data.Id})">Update</button>
                 </form>
                 <hr>
             </div>
@@ -108,7 +108,7 @@ function createNote(id) {
     item["body"] = note;
     item["id"] = id;
     console.log(item);
-    const url = 'http://localhost:3001/todos/' + id + '/notes'
+    const url = '/todos/' + id + '/notes'
     $.ajax({
         type: "POST",
         url: url,
@@ -130,7 +130,7 @@ $('#form-create-task').submit(function () {
 
     $.ajax({
         type: "POST",
-        url: "http://localhost:3001/todos/",
+        url: "/todos/",
         data: JSON.stringify(obj),
         dataType: "json",
         contentType: "application/json",
