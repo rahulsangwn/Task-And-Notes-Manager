@@ -10,10 +10,14 @@ $(document).ready(function(){
     $('#due-date').val(output)
 
 
+    var flag = false;
     $('a.list-group-item').click(function() { 
         var id = $(this).attr('id');
-        var collapseid = '#collapse' + id
+        flag = !flag
+        const collapseid = '#collapse' + id
+        const collapseid2 = 'collapse' + id
         $(collapseid).empty()
+        $('.editTag').empty()
 
         var input = `<div class="input-group">
             <input type="text" class="form-control" id="task${id}" placeholder="Enter Note to Create" aria-label="Recipient's username" aria-describedby="basic-addon2">
@@ -24,13 +28,47 @@ $(document).ready(function(){
         $(collapseid).append(input)
         //$container.cycle(id.replace('#', '')); 
         //return false; 
-        const url = 'http://localhost:3001/todos/' + id + '/notes'
+        const urlNotes = 'http://localhost:3001/todos/' + id + '/notes'
         //console.log(url)
-        $.getJSON(url, function(data) {
+        $.getJSON(urlNotes, function(data) {
             data.forEach(element => {
                 var text = `<li class="list-group-item list-group-item-success">${element.Body}</li>`
                 $(collapseid).append(text);
             })
+        });
+
+        const urlTask = 'http://localhost:3001/todos/' + id
+        
+        $.getJSON(urlTask, function(data) {
+            console.log("requested")
+            var editContent = `
+            <div class="collapse ${flag ? "show": ""}" id="${collapseid2}">
+                <h4 class="text-center">Edit this Task</h4>
+                <form class="form-inline">
+                    <div class="custom-control custom-checkbox my-1 mr-sm-2">
+                        <input type="checkbox" class="custom-control-input" id="customControlInline">
+                        <label class="custom-control-label" for="customControlInline">Is Completed?</label>
+                    </div>
+
+                    <div>
+                        <input class="form-control" type="date" name="duedate" id="">
+                    </div>
+
+                    <select class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref">
+                        <option selected>Priority</option>
+                        <option value="Low">Low</option>
+                        <option value="Medium">Medium</option>
+                        <option value="High">High</option>
+                    </select>
+
+
+                    <button type="submit" class="btn btn-primary my-1">Update</button>
+                </form>
+                <hr>
+            </div>
+            `
+
+            $('.editTag').append(editContent);
         });
     })
 })
